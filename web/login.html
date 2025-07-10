@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        body{ margin:0 auto;
+            width:800px;
+            font-size: 16px;
+            font-family:나눔고딕, verdana, sans-serif;
+        }
+        .login_div{
+            margin:0 auto;
+            width:600px;
+            height:auto;
+            background-color: aqua;
+            border: 1px solid #f1f1f1;
+            padding:1px;
+        }
+        .login_form{background-color: #f1f1f1;
+            padding:10px;
+        }
+        .login_form div {
+            height: 30px;
+            background-color: #fff;
+            margin: 3px;
+            display: flex;
+            align-items: center; /* 세로 중앙 정렬 */
+        }
+        .login_form div span{
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .login_form label{
+            display:inline-block;
+            width: 120px;
+            text-align: center;
+        }
+        .login_form input[type="text"],
+                    input[type="password"],
+                    input[type="email"],
+                    input[type="tel"]{
+            height:20px;
+            width: 200px;
+        }
+        .login_form select{
+            width: 100px;
+            margin-right: 5px;
+        }
+        .login_form input[type="submit"]{
+            height:30px;
+            width:100px;
+            display:block;
+            margin:0 auto;
+        }
+        .highlight{
+            background-color: yellowgreen;
+            border: 5px solid blue;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;" id="mainTitle">로그인</h1>
+    <input type="button" id="chtitle" value="제목 바꾸기">
+    <input type="button" id="toggleCss" value="css변경">
+    <input type="button" value="">
+    <div class="login_div">
+        <div class="login_form">
+        <form method="post" id="loginForm">
+            <div>
+                <label>아이디</label><input type="text" name="id" value="자동 입력" placeholder="아이디를 입력하세요.">
+            </div>
+            <div>
+                <label>비밀번호</label><input type="password"  name="pwd" required placeholder="비밀번호를 입력하세요." >
+            </div>
+            <div>
+                <label>이메일</label><input type="email" name="email" placeholder="비밀번호를 입력하세요." >
+            </div>
+            <div>
+                <label>전화번호</label><input type="tel"  name="tel" placeholder="비밀번호를 입력하세요." >
+            </div>
+            <div>
+                <label>성별</label><input type="radio"  name="gender" placeholder="남자" > 남자
+                <input type="radio" name="gender" placeholder="여자" > 여자
+                <input type="radio" name="gender" placeholder="비공개" > 비공개
+            </div>
+             <div>
+                <label>생년월일</label>
+                <span id="sYear"></span>
+                <span id="sMonth"></span>
+
+                <input type="text" style="width:50px" name="b_day">일
+             </div>
+            <div>
+                <input type="submit" id="fsubmit" value="로그인">
+            </div>
+        </form>
+        </div>
+    </div>
+   <script>
+     
+    const mainTitle = document.querySelector("#mainTitle");
+    const toggleCss = document.querySelector("#toggleCss");
+    const chtitle = document.querySelector("#chtitle");
+
+    chtitle.addEventListener("click", function () {
+        mainTitle.textContent = "회원가입";
+    });
+
+    toggleCss.addEventListener("click", function () {
+        mainTitle.classList.add("highlight");
+        mainTitle.style.color = "blue";
+    });
+    
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+
+    let opts = '<select name="b_month">';
+        opts += '<option>태어난 달을 선택하세요.</option>';
+        for (let i = 1; i <= 12; i++) {
+        opts += '<option value=' + i + '>' + i + '</option>';
+        }
+        opts += '</select>';
+
+    console.log(opts);
+   
+    console.log(currentDate);
+
+    let optsy = '<select name="b_year">';
+        optsy += '<option>태어난 년도를 선택하세요.</option>';
+        for (let i = 1930; i <= currentYear; i++) {
+            optsy += '<option value=' + i + '>' + i + '</option>';
+        }
+        optsy += '</select>';
+
+    console.log(optsy);
+    console.log(currentYear);
+
+    const myform = document.querySelector("#loginForm");
+    const hfsubmit = document.querySelector("#fsubmit");
+
+    const putYear = document.querySelector('#sYear')
+    const putMonth = document.querySelector('#sMonth')
+
+    putYear.innerHTML=optsy;
+    putMonth.innerHTML=opts;
+
+    hfsubmit.addEventListener("click", function (e) {
+    // 입력값 가져오기
+    const id = myform.id.value.trim();
+    const pwd = myform.pwd.value.trim();
+    const email = myform.email.value.trim();
+    const tel = myform.tel.value.trim();
+
+   
+
+    // 입력값 검사
+    if (id === "") {
+      alert("아이디를 입력하세요.");
+      e.preventDefault();
+      return;
+    }
+
+    if (pwd === "") {
+      alert("비밀번호를 입력하세요.");
+      e.preventDefault();
+      return;
+    }
+
+    if (email === "") {
+      alert("이메일을 입력하세요.");
+      e.preventDefault();
+      return;
+    }
+
+    if (tel === "") {
+      alert("전화번호를 입력하세요.");
+      e.preventDefault();
+      return;
+    }
+
+    // 모든 값이 채워져 있으면 form 제출!
+    myform.submit();
+  });
+</script>
+</body>
+</html>

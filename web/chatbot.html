@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f2f6ff;
+            padding: 30px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 90%;
+            max-width: 600px;
+            padding: 10px;
+            background: #f2f6ff;
+            z-index: 10;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            border-radius: 25px;
+        }
+
+        input[type="text"] {
+            padding: 12px 18px;
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s; 
+        }
+
+        input[type="text"]:focus {
+            border-color: #6c9eff;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            background: #6c9eff;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background: #517fd4;
+        }
+
+        #chatBox {
+            max-width: 600px;
+            margin: 30px auto 120px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            min-height: 200px;
+            max-height: calc(100vh - 220px); 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        p {
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 20px;
+            max-width: 70%;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+
+        .user {
+            background: #d0e8ff;
+            align-self: flex-end;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .bot {
+            background: #eee;
+            align-self: flex-start;
+            margin-right: auto;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>챗봇</h1>
+    <div id="chatBox"></div>
+
+    <form>
+        <input type="text" id="userInput" placeholder="질문을 입력하세요." required>
+        <button type="submit">보내기</button>
+    </form>
+
+    <script>
+        const form = document.querySelector("form");
+        const input = document.getElementById("userInput");
+        const chatBox = document.getElementById("chatBox");
+
+        function addWelcomeMessage() {
+            const welcomeMsg = document.createElement("p");
+            welcomeMsg.classList.add("bot");
+            welcomeMsg.textContent = "챗봇: 안녕하세요! 무엇을 도와드릴까요?";
+            chatBox.appendChild(welcomeMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        window.addEventListener('DOMContentLoaded', addWelcomeMessage);
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const userText = input.value.trim();
+            if (userText === "") return;
+
+            const userMsg = document.createElement("p");
+            userMsg.classList.add("user");
+            userMsg.textContent = `사용자: ${userText}`;
+            chatBox.appendChild(userMsg);
+
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const typingIndicator = document.createElement("p");
+            typingIndicator.classList.add("bot");
+            typingIndicator.textContent = "챗봇: 입력 중...";
+            typingIndicator.style.fontStyle = "italic";
+            typingIndicator.style.color = "#777";
+            chatBox.appendChild(typingIndicator);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const botReplay = `${userText}에 대해 더 자세히 알려드릴까요?`;
+
+            setTimeout(() => {
+                
+                chatBox.removeChild(typingIndicator); 
+                
+                const botMsg = document.createElement("p");
+                botMsg.classList.add("bot");
+                botMsg.textContent = `챗봇: ${botReplay}`;
+                chatBox.appendChild(botMsg);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

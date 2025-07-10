@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>간단한 웹 페이지</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    #myText {
+      color: darkblue;
+      font-size: 24px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="myText">안녕하세요!</h1>
+  <button onclick="changeColor()">색깔 바꾸기</button>
+
+  <script>
+    function changeColor() {
+      const text = document.getElementById("myText");
+      text.style.color = text.style.color === "crimson" ? "darkblue" : "crimson";
+    }
+  </script>
+</body>
+</html>

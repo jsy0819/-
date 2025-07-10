@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>timeloop</title>
+</head>
+<body>
+    <div id="timeloop"></div>
+    <div id="productloop"></div>
+
+    <script>
+
+        function clockloop(){
+            const now = new Date();
+            //console.log(now);
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+
+            hours = String(hours).padStart(2, '0');
+            minutes = String(minutes).padStart(2, '0');
+            seconds = String(seconds).padStart(2, '0');
+
+            const current_time = hours + ':' + minutes + ':' + seconds;
+
+            const timeloop = document.querySelector('#timeloop');
+
+            timeloop.textContent=current_time;
+        }
+        clockloop();
+        setInterval(clockloop, 1000);
+
+        const products = [
+            {name:"스마트폰", price:1000000, category:"전자제품"},
+            {name:"과자", price:2000, category:"음식"},
+            {name:"음료수", price:2500, category:"음식"},
+            {name:"아이스크림", price:1500, category:"음식"},
+            {name:"껌", price:500, category:"음식"},
+            {name:"사탕", price:300, category:"음식"},
+            {name:"복숭아", price:3000, category:"과일"},
+            {name:"사과", price:2000, category:"과일"},
+            {name:"수박", price:10000, category:"과일"},
+        ];
+
+        let indexNumber = 0;
+
+        function rollingProduct(){
+            const currentProduct = products[indexNumber];
+            const textProduct = `${currentProduct.name}<br>
+                ${currentProduct.category}<br>
+                <span style="color: red;">${currentProduct.price}</span>`;
+
+            productloop.style.opacity=0;
+            setTimeout(()=>{
+                productloop.innerHTML=textProduct;
+                productloop.style.opacity=1;
+            },300);
+
+            indexNumber++;
+            if(indexNumber>=products.length){
+                indexNumber=0;
+            }
+        }
+        rollingProduct();
+        setInterval(rollingProduct, 1000);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 리스트</title>
+    <style>
+        body{margin:0;background-color: #f8f9fa; }
+        .container{
+            max-width: 900px;
+            margin:2rem auto;
+            padding : 2rem;
+            background-color: #fff;
+            border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        h1{
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table{
+            border-collapse: collapse;
+        }
+        th{
+            background-color: #ecf1fd;
+            padding: 5px;
+        }
+        td{
+            padding: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>회원 게시글 리스트</h1>
+        <table border="1" width="100%">
+            <tr>
+                <th>글번호</th>
+                <th>제목</th>
+                <th>조회수</th>
+                <th>수정/삭제<button style="margin-left: 10px;" onclick="javascript:location.href='/reg_post/'">게시글추가</button></th>
+            </tr>
+            {% if posts %}
+                {% for post in posts %}
+            <tr>
+                <td>{{post.id}}</td>
+                <td><a href="/post/{{post.id}}">{{post.title}}</a></td>
+                <td>{{post.cnt}}</td>
+                <td style="text-align: center;"><button style="margin-left: 10px;" onclick="javascript:location.href='/posts/{{post.id}}'">글 수정</button>
+                <button style="margin-left: 10px;" onclick="javascript:deletepost({{post.id}})">글삭제</button>
+                </td>
+            </tr>
+                {% endfor %}
+            {% endif %}
+            <tr>
+                <td colspan="4" style="text-align: center;">
+                    {% set page_block_size = 10 %}
+                    total_pages : {{total_pages}}
+                    current_page : {{current_page}}
+                    <!-- 나의 페이지 번호가 20이라고 할때 current_page = 20 -->
+                    {% set current_block = (current_page - 1) // page_block_size %}
+                    <!-- current_page= 20 (20-1)/10 의 몫만 가져옴 current_block = -->current_block : {{current_block}}
+                    {% set start_page = current_block * page_block_size + 1 %}
+                    <!-- 1 * 10 = 10 + 1 = 11  start_page = -->start_page : {{start_page}}
+                    {% set end_page = start_page + page_block_size - 1 %}
+                    <!-- 11+10-1 = 20  end_page = -->end_page : {{end_page}}
+                    {% if end_page > total_pages %}{% set end_page = total_pages %}{% endif %}
+                    <!-- end_page가 토탈 페이지수보다 크다면 end_page=total_pages -->
+                    {% set total_blocks = (total_pages - 1) // page_block_size %}
+                    <!-- total_pages에서 1을 뺀 수를 블럭사이즈로 나누면 토탈 블록 -->total_blocks : {{total_blocks}}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center;">
+                    
+                    <!-- '처음' & '이전 블록' 페이지 링크 -->
+                    {% if current_page > 1 %}
+                        <a href="{{ request.url.path }}?page=1" title="처음 페이지로">&laquo;&laquo;</a>
+                    {% endif %}
+                    {% if current_block > 0 %}
+                        <a href="{{ request.url.path }}?page={{ start_page - 1 }}" title="이전 블록으로">&laquo;</a>
+                    {% endif %}
+
+                    {% for page_num in range(start_page, end_page + 1) %}
+                        {% if page_num == current_page %}
+                            <span class="current">{{ page_num }}</span>
+                        {% else %}
+                            <a href="{{ request.url.path }}?page={{ page_num }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if current_block < total_blocks %}
+                        <a href="{{ request.url.path }}?page={{ end_page + 1 }}" title="다음 블록으로">&raquo;</a>
+                    {% endif %}
+                    {% if current_page < total_pages %}
+                        <a href="{{ request.url.path }}?page={{ total_pages }}" title="마지막 페이지로">&raquo;&raquo;</a>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+        
+    </div>
+    
+</body>
+</html>

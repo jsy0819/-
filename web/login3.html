@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        body {
+        font-family: 'Pretendard', Arial, sans-serif;
+        background-color: skyblue;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        }
+        .login-box {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 350px;
+        }
+        .login-box h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        }
+        .login-box label {
+        font-weight: bold;
+        display: block;
+        margin: 10px 0 5px;
+        }
+        .login-box input[type="text"],
+        .login-box input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid black;
+        border-radius: 5px;
+        }
+        .login-box .checkbox {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        }
+        .login-box .checkbox input {
+        margin-right: 5px;
+        }
+        .login-box input[type="submit"] {
+        font-weight: bold;
+        background-color: #007BFF;
+        color: white;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 15px;
+        }
+        .login-box input[type="submit"]:hover {
+        background-color: #0056b3;
+        }
+    </style>
+    </head>
+    <body>
+    <form id="LoginForm" class="login-box" method="post">
+        <h2>로그인</h2>
+        <label for="username">사용자 이름</label>
+        <input type="text" id="username" name="username" placeholder="아이디를 입력하세요">
+
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
+
+        <div class="checkbox">
+        <input type="checkbox" id="remember" name="remember">
+        <label for="remember">로그인 정보 저장</label>
+        </div>
+
+        <input type="submit" value="로그인">
+    </form>
+    <script>
+        const form = document.querySelector("#LoginForm");
+        const id = document.querySelector("#username");
+        const pwd = document.querySelector("#password");
+
+        form.addEventListener("submit", function(e) {
+            if (id.value.trim() === "") {
+            alert("아이디를 입력하세요.");
+            e.preventDefault();
+            return;
+            }
+
+            if (pwd.value.trim() === "") {
+            alert("비밀번호를 입력하세요.");
+            e.preventDefault();
+            return;
+            }
+        });
+    </script>
+    </body>
+    </html>
